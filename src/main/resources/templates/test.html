@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:each="vo:${vos}">
+    <!--/*@thymesVar id="name" type="java"*/-->
+    <a th:text="${vo.get('user')}"></a>
+</div>
+
+
+</body>
+</html>
