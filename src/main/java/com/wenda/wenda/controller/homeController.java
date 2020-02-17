@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +27,20 @@ public class homeController {
 
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @RequestMapping(path = {"/index"},method = {RequestMethod.GET})
+    @RequestMapping(path = {"/", "/index"},method = {RequestMethod.GET})
     public String index(Model model){
-        List<Question> questionList = questionServive.getlatestQuestion(0,0,10);
+        model.addAttribute("vos",getQuestion(0,0,10));
+        return "index";
+    }
+
+    @RequestMapping(path = {"/user/{userId}"},method = {RequestMethod.GET})
+    public String userIndex(Model model, @PathVariable("userId") int userId){
+        model.addAttribute("vos",getQuestion(userId,0,10));
+        return "index";
+
+    }
+    private List<ViewObject> getQuestion(int userId ,int offset,int limit){
+        List<Question> questionList = questionServive.getlatestQuestion(userId,offset,limit);
         List<ViewObject> vos = new ArrayList<>();
         for (Question question:questionList){
             ViewObject vo = new ViewObject();
@@ -38,9 +48,7 @@ public class homeController {
             vo.set("user",userServive.getUser(question.getUserId()));
             vos.add(vo);
         }
-
-        model.addAttribute("vos",vos);
-        return "test";
+        return vos;
     }
 
 }

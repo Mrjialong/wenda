@@ -11,6 +11,10 @@ public class Question {
     private int userId;
     private int commentCount;
 
+    public Question() {
+
+    }
+
     public int getId() {
         return id;
     }

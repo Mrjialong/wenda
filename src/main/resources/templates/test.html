@@ -2,8 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:each="vo:${vos}">
-    <!--/*@thymesVar id="name" type="java"*/-->
-    <a th:text="${vo.get('user')}"></a>
+
+    <th:block th:with="component =${vo.get('user')}, question = ${vo.get('question')}" >
+        <!--/*@thymesVar id="component" type="com.wenda.wenda.model.User"*/-->
+        <span th:text="${component.getName()}"></span>
+        <!--/*@thymesVar id="question" type="com.wenda.wenda.model.Question"*/-->
+        <span th:text="${question.getContent()}"></span>
+    </th:block>
 </div>
 
 

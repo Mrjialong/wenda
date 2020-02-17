@@ -12,10 +12,6 @@ public class IndexController {
     WendaServive service;
 
 
-    @RequestMapping(path = {"/index"})
-    public String templateHome(Model model){
-        return "home";
-    }
 
     @RequestMapping(path = {"/footer"})
     public String templateFooter(Model model){
