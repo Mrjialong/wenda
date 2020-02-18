@@ -1,5 +1,6 @@
 package com.wenda.wenda.dao;
 
+import com.wenda.wenda.model.LoginTicket;
 import com.wenda.wenda.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
@@ -7,22 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper
 public interface LoginTicketDao {
-    String TABLE_NAME = " user ";
-    String INSERT_FIELDS = " name,password,salt,head_url ";
+    String TABLE_NAME = " login_ticket ";
+    String INSERT_FIELDS = " user_id,expired,status,ticket ";
     String SELECT_FIELDS = " id, "+INSERT_FIELDS;
-    @Insert({"insert into ",TABLE_NAME," (", INSERT_FIELDS ,") values(#{name},#{password},#{salt},#{headUrl})"})
-    int addUser(User user);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
-    User selectById(int id);
+    @Insert({"insert into ",TABLE_NAME," (", INSERT_FIELDS ,") values(#{userId},#{expired},#{status},#{ticket})"})
+    int addTicket(LoginTicket loginTicket);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where name=#{name}"})
-    User selectByName(String name);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where ticket=#{ticket}"})
+    User selectByTicket(int id);
 
-    @Update({"update ", TABLE_NAME, " set password=#{password} where id=#{id}"})
-    void updatePassword(User user);
-
-    @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
-    void deleteById(int id);
+    @Update({"update ", TABLE_NAME, " set status=#{status} where ticket=#{ticket}"})
+    void updatePassword(@Param("ticket") String ticket,@Param("status") int status);
 
 }

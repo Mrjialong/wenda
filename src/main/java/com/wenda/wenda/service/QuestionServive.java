@@ -12,6 +12,13 @@ public class QuestionServive {
     @Autowired
     QuestionDao questionDao;
 
+    /**
+     * 获取问题
+     * @param userId
+     * @param offset
+     * @param limit
+     * @return
+     */
     public List<Question> getlatestQuestion(int userId,int offset,int limit){
         return questionDao.selectLatestQuestions(userId,offset,limit);
     }

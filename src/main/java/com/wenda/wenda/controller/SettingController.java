@@ -27,6 +27,10 @@ public class SettingController {
         return "setting OK "+wendaservice.getMessage(1);
     }
 
+    /**
+     * 添加用户
+     * @return
+     */
     @RequestMapping(path = {"/addUser"},method = {RequestMethod.GET})
     @ResponseBody
     public String add(){
@@ -42,6 +46,10 @@ public class SettingController {
         return "setting OK";
     }
 
+    /**
+     * 添加问题
+     * @return
+     */
     @RequestMapping(path = {"/addQuestion"},method = {RequestMethod.GET})
     @ResponseBody
     public String addQuestion(){

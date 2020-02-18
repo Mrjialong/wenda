@@ -27,18 +27,37 @@ public class homeController {
 
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
+    /**
+     * 问题首页
+     * @param model
+     * @return index页面
+     */
     @RequestMapping(path = {"/", "/index"},method = {RequestMethod.GET})
     public String index(Model model){
         model.addAttribute("vos",getQuestion(0,0,10));
         return "index";
     }
 
+    /**
+     * 根据userId获取用户问题页
+     * @param model
+     * @param userId
+     * @return index页面
+     */
     @RequestMapping(path = {"/user/{userId}"},method = {RequestMethod.GET})
     public String userIndex(Model model, @PathVariable("userId") int userId){
         model.addAttribute("vos",getQuestion(userId,0,10));
         return "index";
 
     }
+
+    /**
+     * 获取问题序列
+     * @param userId 用户名
+     * @param offset 起始位置
+     * @param limit 限制数量
+     * @return 返回List<ViewObject> vos
+     */
     private List<ViewObject> getQuestion(int userId ,int offset,int limit){
         List<Question> questionList = questionServive.getlatestQuestion(userId,offset,limit);
         List<ViewObject> vos = new ArrayList<>();
