@@ -6,6 +6,7 @@ import com.wenda.wenda.model.Question;
 import com.wenda.wenda.model.ViewObject;
 import com.wenda.wenda.service.QuestionServive;
 import com.wenda.wenda.service.UserServive;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class loginController {
     public String reg(Model model,
                       @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      HttpServletResponse httpServletResponse
+                      HttpServletResponse httpServletResponse,
+                      @RequestParam(value = "next",required = false) String next
         ){
         try {
             Map<String,String> map = userServive.register(username,password);
@@ -47,6 +49,9 @@ public class loginController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
+                if (StringUtils.isNotBlank(next)){
+                    return "redirect:"+next;
+                }
                 return "redirect:/";
 
             }else {
@@ -60,17 +65,20 @@ public class loginController {
     }
 
     /**
-     * 登陆页面
+     * 跳转登陆页面
      * @param model
      * @return login页面
      */
     @RequestMapping(path = {"/reglogin"},method = {RequestMethod.GET})
-    public String reg(Model model){
+    public String reg(Model model,
+                      @RequestParam(value = "next",required = false) String next
+    ){
+        model.addAttribute("next",next);
         return "login";
     }
 
     /**
-     * 登陆功能：验证用户名和密码并生成ticket，并用response返回ticket存储到cookie中
+     * 登陆按钮功能：验证用户名和密码并生成ticket，并用response返回ticket存储到cookie中
      * @param model
      * @param username 用户名
      * @param password 密码
@@ -82,7 +90,8 @@ public class loginController {
     public String login(Model model,
                       @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value = "rememberme",defaultValue = "false")boolean rememberme,
+                        @RequestParam(value = "next",required = false) String next,
+                        @RequestParam(value = "rememberme",defaultValue = "false")boolean rememberme,
                         HttpServletResponse httpServletResponse
     ){
         try {
@@ -91,6 +100,9 @@ public class loginController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
+                if (StringUtils.isNotBlank(next)){
+                    return "redirect:"+next;
+                }
                 return "redirect:/";
 
             }else {

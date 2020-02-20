@@ -22,4 +22,14 @@ public class QuestionServive {
     public List<Question> getlatestQuestion(int userId,int offset,int limit){
         return questionDao.selectLatestQuestions(userId,offset,limit);
     }
+
+    /**
+     * 添加问题
+     * @param question
+     * @return
+     */
+    public int addQuestion(Question question){
+        //敏感词过滤
+        return questionDao.addQuestion(question)>0? question.getId() : 0;
+    }
 }
