@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -104,6 +101,18 @@ public class loginController {
             logger.error("注册异常");
             return "login";
         }
+    }
+
+
+    /**
+     * 退出登陆
+     * @param ticket
+     * @return 首页
+     */
+    @RequestMapping(path = {"/logout"})
+    public String logout(@CookieValue("ticket") String ticket){
+        userServive.logout(ticket);
+        return "redirect:/";
     }
 
 

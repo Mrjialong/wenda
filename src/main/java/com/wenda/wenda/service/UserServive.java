@@ -112,4 +112,12 @@ public class UserServive {
 
     }
 
+    /**
+     * 用户退出
+     * @param ticket
+     */
+    public void logout(String ticket){
+        loginTicketDao.updatePassword(ticket,1);
+    }
+
 }
