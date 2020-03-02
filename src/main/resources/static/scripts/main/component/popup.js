@@ -141,7 +141,7 @@ var oPopup = new Popup({
         // 调整元素大小
         oEl.css({
             left: nWinWidth > nElWidth ? (nWinWidth - nElWidth) / 2 : 0,
-            top: (nWinHeight > nElHeight ? (nWinHeight - nElHeight) / 2 : 0) + nScrollTop
+            top: (nWinHeight > nElHeight ? (nWinHeight - nElHeight) / 2 : 0) + nScrollTop-150
         });
         // 调整遮罩层大小
         that.maskEl.css({

@@ -120,4 +120,14 @@ public class UserServive {
         loginTicketDao.updatePassword(ticket,1);
     }
 
+
+    /**
+     * 根据名字获取用户
+     * @param name
+     * @return
+     */
+    public User selectByName(String name) {
+        return userDao.selectByName(name);
+    }
+
 }

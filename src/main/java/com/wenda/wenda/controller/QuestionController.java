@@ -1,7 +1,8 @@
 package com.wenda.wenda.controller;
 
-import com.wenda.wenda.model.HostHolder;
-import com.wenda.wenda.model.Question;
+import com.wenda.wenda.model.*;
+import com.wenda.wenda.service.CommentService;
+import com.wenda.wenda.service.LikeService;
 import com.wenda.wenda.service.QuestionServive;
 import com.wenda.wenda.service.UserServive;
 import com.wenda.wenda.util.WendaUtil;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,6 +29,12 @@ public class QuestionController {
     QuestionServive questionServive;
     @Autowired
     HostHolder hostHolder;
+    @Autowired
+    UserServive userServive;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    LikeService likeService;
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     /**
@@ -58,8 +68,39 @@ public class QuestionController {
         return WendaUtil.getJSONString(1,"失败");
     }
 
+    /**
+     * 根据问题id显示问题
+     * @param model
+     * @param qid
+     * @return
+     */
+    @RequestMapping(path = {"/question/{qid}"})
+    public String questionDetial(Model model,@PathVariable("qid") int qid){
+        Question question = questionServive.selectById(qid);
+        model.addAttribute("question",question);
+        model.addAttribute("user",userServive.getUser(question.getUserId()));
 
+        List<Comment> commentList = commentService.getCommentsByEntity(qid, EntityType.ENTITY_QUESTION);
 
+        List<ViewObject> comments = new ArrayList<>();
+
+        for (Comment comment : commentList){
+            ViewObject vo = new ViewObject();
+            vo.set("comment",comment);
+
+            if (hostHolder.getUsers() == null){
+                vo.set("liked",0);
+            }else {
+                vo.set("liked",likeService.getLikeStatus(hostHolder.getUsers().getId(),EntityType.ENTITY_COMMENT,comment.getId()));
+            }
+
+            vo.set("likeCount",likeService.getLikeCount(EntityType.ENTITY_COMMENT,comment.getId()));
+            vo.set("user",userServive.getUser(comment.getUserId()));
+            comments.add(vo);
+        }
+        model.addAttribute("comments",comments);
+        return "detail";
+    }
 
 }
 

@@ -25,7 +25,7 @@ public class IndexController {
 
     @RequestMapping(path = {"/test"})
     public String templateTest(Model model){
-        return "test";
+        return "home1";
     }
 
     @RequestMapping(path = {"/index2"})

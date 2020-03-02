@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="header.html"></div>
+<link rel="stylesheet" href="../static/styles/letter.css">
+<div id="main">
+    <div class="zg-wrap zu-main clearfix ">
+        <ul class="letter-list">
+            <!--                #foreach ($conversation in $conversations)-->
+            <th:block th:each="vo:${conversations}"
+                      th:with="user =${vo.get('user')},conversation = ${vo.get('conversation')},unread = ${vo.get('unread')}">
+<!--                th:width="unread = ${vo.get('unread')}-->
+                <li id="conversation-item-10001_622873">
+                    <a class="letter-link" th:href="${'/msg/detail?conversationId='+conversation.getConversationId()}">
+                    </a>
+                    <div class="letter-info">
+                        <!--/*@thymesVar id="conversation" type="com.wenda.wenda.model.Message"*/-->
+                        <span class="l-time" th:text="${#dates.format(conversation.getCreatedDate(),'yyyy-MM-dd HH:mm:ss')}">$date.format('yyyy-MM-dd HH:mm:ss', $conversation.conversation.createdDate)</span>
+                        <div class="l-operate-bar">
+                            <!--
+                        <a href="javascript:void(0);" class="sns-action-del" data-id="10001_622873">
+                        删除
+                        </a>
+                        -->
+                            <!--/*@thymesVar id="conversation" type="com.wenda.wenda.model.Message"*/-->
+                            <a th:href="${'/msg/detail?conversationId='+conversation.getConversationId()}" th:text="${conversation.getId()}+'条消息'"></a>
+                        </div>
+                    </div>
+                    <div class="chat-headbox">
+<!--                        &lt;!&ndash;/*@thymesVar id="conversation" type="com.wenda.wenda.model.Message"*/&ndash;&gt;-->
+                <span class="msg-num" th:text="${unread}">
+                </span>
+                        <a class="list-head">
+                            <!--/*@thymesVar id="user" type="com.wenda.wenda.model.User"*/-->
+                            <img alt="头像" th:src="${user.getHeadUrl()}">
+                        </a>
+                    </div>
+                    <div class="letter-detail">
+                        <!--/*@thymesVar id="user" type="com.wenda.wenda.model.User"*/-->
+                        <a title="$conversation.user.name" class="letter-name level-color-1" th:text="${user.getName()}">
+<!--                            $conversation.user.name-->
+                        </a>
+                        <p class="letter-brief">
+                            <a th:href="${'/msg/detail?conversationId='+conversation.getConversationId()}" th:text="${conversation.getContent()}">
+<!--                                $conversation.conversation.content-->
+                            </a>
+                        </p>
+                    </div>
+                </li>
+                <!--                #end-->
+            </th:block>
+        </ul>
+
+    </div>
+</div>
+<div th:replace="footer.html"></div>
+</html>
