@@ -2,6 +2,9 @@ package com.wenda.wenda.controller;
 
 import com.sun.deploy.net.HttpResponse;
 import com.wenda.wenda.aspect.LogAspect;
+import com.wenda.wenda.async.EventModel;
+import com.wenda.wenda.async.EventProducer;
+import com.wenda.wenda.async.EventType;
 import com.wenda.wenda.model.Question;
 import com.wenda.wenda.model.ViewObject;
 import com.wenda.wenda.service.QuestionServive;
@@ -27,6 +30,8 @@ public class loginController {
 
     @Autowired
     UserServive userServive;
+    @Autowired
+    EventProducer eventProducer;
 
     /**
      * 注册功能，生成ticket，并用response返回ticket存储到cookie中
@@ -100,6 +105,11 @@ public class loginController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
+                //发动邮件组件
+//                eventProducer.fireEvent(new EventModel(EventType.login)
+//                        .setExt("username",username)
+//                        .setExt("email","1040147144@qq.com")
+//                        .setActorId(Integer.parseInt(map.get("userId"))));
                 if (StringUtils.isNotBlank(next)){
                     return "redirect:"+next;
                 }
@@ -110,7 +120,7 @@ public class loginController {
                 return "login";
             }
         }catch (Exception e){
-            logger.error("注册异常");
+            logger.error("登陆异常");
             return "login";
         }
     }

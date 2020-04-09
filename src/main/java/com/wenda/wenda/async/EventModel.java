@@ -4,6 +4,7 @@ package com.wenda.wenda.async;
 import java.util.HashMap;
 import java.util.Map;
 //事件发生的现场
+
 public class EventModel {
     private EventType type;//事件类型（点赞）
     private int actorId;//触发者（谁点赞）
