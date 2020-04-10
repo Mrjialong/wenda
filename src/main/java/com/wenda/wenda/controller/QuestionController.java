@@ -1,12 +1,10 @@
 package com.wenda.wenda.controller;
 
 import com.wenda.wenda.model.*;
-import com.wenda.wenda.service.CommentService;
-import com.wenda.wenda.service.LikeService;
-import com.wenda.wenda.service.QuestionServive;
-import com.wenda.wenda.service.UserServive;
+import com.wenda.wenda.service.*;
 import com.wenda.wenda.util.WendaUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +33,8 @@ public class QuestionController {
     CommentService commentService;
     @Autowired
     LikeService likeService;
+    @Autowired
+    FollowService followService;
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     /**
@@ -43,7 +43,7 @@ public class QuestionController {
      * @param content 内容
      * @return
      */
-    @RequestMapping(path = {"/logout"},method = {RequestMethod.POST})
+    @RequestMapping(path = {"/question/add"},method = {RequestMethod.POST})
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title,@RequestParam("content") String content){
         try{
@@ -74,7 +74,7 @@ public class QuestionController {
      * @param qid
      * @return
      */
-    @RequestMapping(path = {"/question/{qid}"})
+    @RequestMapping(value = {"/question/{qid}"},method = {RequestMethod.GET})
     public String questionDetial(Model model,@PathVariable("qid") int qid){
         Question question = questionServive.selectById(qid);
         model.addAttribute("question",question);
@@ -99,6 +99,26 @@ public class QuestionController {
             comments.add(vo);
         }
         model.addAttribute("comments",comments);
+        List<ViewObject> followUsers = new ArrayList<>();
+        // 获取关注的用户信息
+        List<Integer> users = followService.getFollowees(EntityType.ENTITY_QUESTION,qid,20);
+        for (Integer userId: users){
+            ViewObject vo = new ViewObject();
+            User u = userServive.getUser(userId);
+            if (u == null){
+                continue;
+            }
+            vo.set("name",u.getName());
+            vo.set("headUrl",u.getHeadUrl());
+            vo.set("id",u.getId());
+            followUsers.add(vo);
+        }
+        model.addAttribute("followUsers",followUsers);
+        if (hostHolder.getUsers() != null){
+            model.addAttribute("followed",followService.isFollower(hostHolder.getUsers().getId(),EntityType.ENTITY_QUESTION,qid));
+        }else {
+            model.addAttribute("followed",false);
+        }
         return "detail";
     }
 

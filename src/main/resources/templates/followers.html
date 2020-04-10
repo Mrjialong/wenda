@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="header.html"></div>
+<link rel="stylesheet" href="http://127.0.0.1:8080/static/styles/result.css">
+<link rel="stylesheet" href="http://127.0.0.1:8080/static/styles/detail.css">
+    <div id="main">
+        <div class="zg-wrap zu-main clearfix ">
+            <div class="zm-profile-section-wrap zm-profile-followee-page">
+                <div class="zm-profile-section-head">
+                    <span class="zm-profile-section-name">
+                        <a href="#" th:text="${curUser.getName()}+'粉丝'+${followerCount}+'人'"></a>
+<!--                        <p th:text="${'粉丝'+${followerCount}}"  class="author-link" data-tip="p$b$amuro1230" target="_blank" style="float: right;margin-right: 750px" ></p>-->
+
+                    </span>
+                </div>
+                <div class="zm-profile-section-list">
+                    <div id="zh-profile-follows-list">
+                        <div class="zh-general-list clearfix" th:each="vo:${followers}" th:with="user = ${vo.get('user')}">
+<!--                            <div th:each="comment:${comments}" th:with="user =${comment.get('user')}, usercomment = ${comment.get('comment')}, likeCount = ${comment.get('likeCount')},like = ${comment.get('liked')}">-->
+
+<!--                            #foreach($vo in $followers)-->
+                            <div class="zm-profile-card zm-profile-section-item zg-clear no-hovercard" >
+<!--                                #if($vo.followed)-->
+
+
+
+                                <th:block th:switch="${vo.get('followed') == true}">
+                                <div class="zg-right">
+                                    <button class="zg-btn zg-btn-unfollow zm-rich-follow-btn small nth-0
+                                    js-follow-user" data-status="1" th:data-id="${user.getId()}" th:case="true" >取消关注</button>
+                                </div>
+                                <div class="zg-right">
+                                    <button class="zg-btn zg-btn-follow zm-rich-follow-btn small nth-0
+                                    js-follow-user" th:case="false">关注</button>
+                                </div>
+                                </th:block>
+                                <!--                                #end-->
+                                <!--/*@thymesVar id="user" type="com.wenda.wenda.model.User"*/-->
+                                <a title="Barty" class="zm-item-link-avatar" th:href="'/user/'+${user.getId()}">
+                                    <img th:src="${user.getHeadUrl()}" class="zm-item-img-avatar">
+                                </a>
+                                <div class="zm-list-content-medium">
+                                    <h2 class="zm-list-content-title"><a data-tip="p$t$buaabarty" th:href="'/user/'+${user.getId()}" class="zg-link" title="Barty" th:text="${user.getName()}"></a></h2>
+
+                                    <!-- <div class="zg-big-gray">计蒜客教研首席打杂</div> -->
+                                    <div class="details zg-gray">
+                                        <a target="_blank" th:href="'/user/'+${user.getId()}+'/followers'" class="zg-link-gray-normal" th:text="${vo.get('followerCount')}+'粉丝'"></a>
+                                        /
+                                        <a target="_blank" th:href="'/user/'+${user.getId()}+'/followees'" class="zg-link-gray-normal" th:text="${vo.get('followeeCount')+'关注'}"></a>
+                                        /
+                                        <a target="_blank" href="#" class="zg-link-gray-normal" th:text="${vo.get('commentCount')+'回答'}"></a>
+                                        /
+                                        <a target="_blank" href="#" class="zg-link-gray-normal">548 赞同</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a aria-role="button" class="zg-btn-white zu-button-more">更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div th:replace="footer.html"></div>
+</html>

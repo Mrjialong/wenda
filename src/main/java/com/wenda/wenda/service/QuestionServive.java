@@ -48,9 +48,11 @@ public class QuestionServive {
         //敏感词过滤
         question.setContent(sensitiveService.filter(question.getContent()));
         question.setTitle(sensitiveService.filter(question.getTitle() ));
+        int re = questionDao.addQuestion(question)>0? question.getId() : 0;
 
 
-        return questionDao.addQuestion(question)>0? question.getId() : 0;
+        return re;
+
     }
 
     public int updateCommentCount(int id, int count) {

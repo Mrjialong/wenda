@@ -1,7 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="header.html"></div>
 <link rel="stylesheet" href="../static/styles/index.css">
-<link rel="stylesheet" href="../static/styles/detail.css">
 <div class="zg-wrap zu-main clearfix " role="main">
     <div class="zu-main-content">
         <div class="zu-main-content-inner">
@@ -18,7 +17,7 @@
 
 <!--                    #foreach($vo in $vos)-->
                     <th:block th:each="vo:${vos}"
-                              th:with="user =${vo.get('user')}, question = ${vo.get('question')}">
+                              th:with="user =${vo.get('user')}, question = ${vo.get('question')},followCount = ${vo.get('followCount')}">
                     <div class="feed-item folding feed-item-hook feed-item-2
                         " feed-item-a="" data-type="a" id="feed-2" data-za-module="FeedItem" data-za-index="">
                         <meta itemprop="ZReactor" data-id="389034" data-meta="{&quot;source_type&quot;: &quot;promotion_answer&quot;, &quot;voteups&quot;: 4168, &quot;comments&quot;: 69, &quot;source&quot;: []}">
@@ -40,7 +39,7 @@
                                     </div>
                                     <div class="expandable entry-body">
                                         <div class="zm-item-vote">
-                                            <a class="zm-item-vote-count js-expand js-vote-count" href="javascript:;" data-bind-votecount="">4168</a></div>
+                                            <a class="zm-item-vote-count js-expand js-vote-count" href="javascript:;" data-bind-votecount="" th:text="${followCount}"></a></div>
                                         <div class="zm-item-answer-author-info">
                                             <!--/*@thymesVar id="user" type="com.wenda.wenda.model.User"*/-->
                                             <a class="author-link" data-tip="p$b$amuro1230" target="_blank" th:href="${'/user/'+user.getId()}" th:text="${user.getName()}"></a>

@@ -19,25 +19,32 @@
                 <div class="zm-editable-content" th:text="${question.getContent()}"></div>
             </div>
             <div class="zm-side-section">
-                <div class="zm-side-section-inner" id="zh-question-side-header-wrap">
-                    <button data-follow="q:m:button" class="follow-button zg-follow zg-btn-green" data-id="6727688">
-                        关注问题
-                    </button>
-                    <div class="zh-question-followers-sidebar">
-                        <div class="zg-gray-normal">
-                            <a href="">
-                                <strong>9</strong></a>人关注该问题
+                <td th:switch = "${followed == true}">
+                        <div th:case="true">
+                            <button class="follow-button zg-follow zg-btn-white js-follow-question" data-id="${question.id}"
+                                    data-status="1">
+                                取消关注
+                            </button>
                         </div>
-                        <div class="list zu-small-avatar-list zg-clear">
-<!--                                <span class="zm-item-link-avatar">-->
-<!--                                    <img title="匿名用户" class="zm-item-img-avatar"-->
-<!--                                         src="../images/res/aadd7b895_s.jpg"></span>-->
-<!--                            <a data-tip="p$b$yi-yi-98-91-99" class="zm-item-link-avatar" href=""-->
-<!--                               data-original_title="奕奕">-->
-<!--                                <img th:src="images/img/res/aadd7b895_s.jpg"-->
-<!--                                     class="zm-item-img-avatar"></a>-->
+                        <div th:case="false">
+                            <button class="follow-button zg-follow zg-btn-green js-follow-question" data-id="${question.id}">
+                                关注问题
+                            </button>
                         </div>
+                </td>
+                <div class="zh-question-followers-sidebar">
+                    <div class="zg-gray-normal">
+                        <a href="javascript:void(0);"><strong class="js-user-count" th:text="${followUsers.size()}"></strong></a>人关注该问题
                     </div>
+                    <div class="list zu-small-avatar-list zg-clear js-user-list">
+                        <th:block th:each="vo:${followUsers}">
+                            <a th:class="'zm-item-link-avatar js-user-'+${vo.get('id')}" class="" th:href="'/user/'+${vo.get('id')}"
+                               th:data-original_title="${vo.get('name')}">
+                                <img th:src="${vo.get('headUrl')}"
+                                     class="zm-item-img-avatar"></a>
+                        </th:block>
+                    </div>
+                </div>
                 </div>
             </div>
             <div id="zh-question-answer-wrap" data-pagesize="10" class="zh-question-answer-wrapper navigable"
@@ -54,20 +61,9 @@
                         <meta itemprop="answer-url-token" content="66862039">
                         <a class="zg-anchor-hidden" name="answer-22162611"></a>
 
-                        <div class="zm-votebar goog-scrollfloater js-vote" th:data-id="${usercomment.getId()}">
-                                <button class="up js-like" title="赞同">
-                                    <i class="icon vote-arrow"></i>
-                                    <span class="count js-voteCount" th:text="${likeCount}"></span>
-                                    <span class="label sr-only">赞同</span>
-                                </button>
-                                    <button class="down js-dislike" title="反对，不会显示你的姓名">
-                                        <i class="icon vote-arrow"></i>
-                                        <span class="label sr-only">反对，不会显示你的姓名</span>
-                                    </button>
-                        </div>
-
 
                         <div class="zm-votebar goog-scrollfloater js-vote" th:data-id="${usercomment.getId()}">
+                            <form>
                             <th:block th:switch="${like>0}">
                                 <button class="up js-like pressed" title="赞同" th:case="true">
                                     <i class="icon vote-arrow"></i>
@@ -91,17 +87,8 @@
                                     <span class="label sr-only">反对，不会显示你的姓名</span>
                                 </button>
                             </th:block>
+                            </form>
                         </div>
-
-<!--                        <div class="zm-votebar goog-scrollfloater" data-za-module="VoteBar">-->
-<!--                            <button class="up" aria-pressed="false" title="赞同">-->
-<!--                                <i class="icon vote-arrow"></i>-->
-<!--                                <span class="count" th:text="${likeCount}"></span>-->
-<!--                                <span class="label sr-only">赞同</span></button>-->
-<!--                            <button class="down" aria-pressed="false" title="反对，不会显示你的姓名">-->
-<!--                                <i class="icon vote-arrow"></i>-->
-<!--                                <span class="label sr-only">反对，不会显示你的姓名</span></button>-->
-<!--                        </div>-->
                         <div class="answer-head">
                             <div class="zm-item-answer-author-info">
                                 <a class="zm-item-link-avatar avatar-link" href="" target="_blank"
@@ -128,7 +115,6 @@
                             <div class="zm-meta-panel">
                                 <a itemprop="url" class="answer-date-link meta-item" target="_blank" href="" th:text="'发布于'+${#dates.format(question.getCreatedDate(),'yyyy-MM-dd HH:mm:ss')}"></a>
 
-                                <!--
                                 <a href="" name="addcomment" class="meta-item toggle-comment js-toggleCommentBox">
                                     <i class="z-icon-comment"></i>4 条评论</a>
                                 <a href="" class="meta-item zu-autohide js-thank" data-thanked="false">
@@ -137,7 +123,7 @@
                                 <button class="item-collapse js-collapse" style="transition: none;">
                                     <i class="z-icon-fold"></i>收起
                                 </button>
-                                -->
+
                             </div>
                         </div>
                     </div>

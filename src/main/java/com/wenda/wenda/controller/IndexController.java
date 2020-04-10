@@ -13,9 +13,9 @@ public class IndexController {
 
 
 
-    @RequestMapping(path = {"/footer"})
+    @RequestMapping(path = {"/followees"})
     public String templateFooter(Model model){
-        return "footer";
+        return "followees";
     }
 
     @RequestMapping(path = {"/header"})
@@ -25,7 +25,7 @@ public class IndexController {
 
     @RequestMapping(path = {"/test"})
     public String templateTest(Model model){
-        return "home1";
+        return "feeds";
     }
 
     @RequestMapping(path = {"/index2"})

@@ -1,8 +1,9 @@
 package com.wenda.wenda.controller;
 
 import com.wenda.wenda.aspect.LogAspect;
-import com.wenda.wenda.model.Question;
-import com.wenda.wenda.model.ViewObject;
+import com.wenda.wenda.model.*;
+import com.wenda.wenda.service.CommentService;
+import com.wenda.wenda.service.FollowService;
 import com.wenda.wenda.service.QuestionServive;
 import com.wenda.wenda.service.UserServive;
 import org.slf4j.Logger;
@@ -13,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +27,16 @@ public class homeController {
     UserServive userServive;
     @Autowired
     QuestionServive questionServive;
+    @Autowired
+    FollowService followService;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    HostHolder hostHolder;
 
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
+
 
     /**
      * 问题首页
@@ -33,7 +44,8 @@ public class homeController {
      * @return index页面
      */
     @RequestMapping(path = {"/", "/index"},method = {RequestMethod.GET})
-    public String index(Model model){
+    public String index(Model model,
+                        @RequestParam(value = "pop", defaultValue = "0") int pop){
         model.addAttribute("vos",getQuestion(0,0,10));
         return "index";
     }
@@ -44,10 +56,22 @@ public class homeController {
      * @param userId
      * @return index页面
      */
-    @RequestMapping(path = {"/user/{userId}"},method = {RequestMethod.GET})
+    @RequestMapping(path = {"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId){
         model.addAttribute("vos",getQuestion(userId,0,10));
-        return "index";
+        User user = userServive.getUser(userId);
+        ViewObject vo = new ViewObject();
+        vo.set("user",user);
+        vo.set("commentCount",commentService.getCommentCount(EntityType.ENTITY_USER,userId));
+        vo.set("followerCount",followService.getFollowerCount(EntityType.ENTITY_USER,userId));
+        vo.set("followeeCount",followService.getFolloweeCount(userId,EntityType.ENTITY_USER));
+        if (hostHolder.getUsers() != null){
+            vo.set("followed",followService.isFollower(hostHolder.getUsers().getId(),EntityType.ENTITY_USER,userId));
+        }else {
+            vo.set("followed",false);
+        }
+        model.addAttribute("profileUser",vo);
+        return "profile";
 
     }
 
@@ -64,6 +88,7 @@ public class homeController {
         for (Question question:questionList){
             ViewObject vo = new ViewObject();
             vo.set("question",question);
+            vo.set("followCount",followService.getFollowerCount(EntityType.ENTITY_QUESTION,question.getId()));
             vo.set("user",userServive.getUser(question.getUserId()));
             vos.add(vo);
         }
