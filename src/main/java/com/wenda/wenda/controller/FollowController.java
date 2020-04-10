@@ -21,7 +21,7 @@ import java.util.*;
 
 @Controller
 public class FollowController {
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(FollowController.class);
 
 
     @Autowired
@@ -51,6 +51,7 @@ public class FollowController {
                 .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
 
         // 返回关注的人数
+        logger.info("关注了"+userId);
         return WendaUtil.getJSONString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUsers().getId(), EntityType.ENTITY_USER)));
     }
     //关注用户
@@ -68,6 +69,8 @@ public class FollowController {
                 .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
 
         // 返回关注的人数
+        logger.info("不关注了"+userId);
+
         return WendaUtil.getJSONString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUsers().getId(), EntityType.ENTITY_USER)));
     }
 
@@ -86,6 +89,7 @@ public class FollowController {
                 .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
 
         // 返回关注的人数
+        logger.info("不关注了"+userId);
         return WendaUtil.getJSONString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUsers().getId(), EntityType.ENTITY_USER)));
     }
     //关注问题

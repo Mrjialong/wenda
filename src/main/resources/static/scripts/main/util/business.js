@@ -20,12 +20,29 @@
             }
             oEl.attr('data-limit', '1');
             var bFollow = oEl.attr('data-status') === '1';
+            // Action[bFollow ? 'unFollowUser' : 'followUser']({
+            //     userId: sId,
+            //     call: function (oResult) {
+            //         // 修改标记位
+            //         oEl.attr('data-status', bFollow ? '0' : '1');
+            //         // 按钮颜色
+            //         oEl.removeClass('zg-btn-follow zg-btn-unfollow').addClass(bFollow ? 'zg-btn-follow' : 'zg-btn-unfollow');
+            //         // 文字
+            //         oEl.html(bFollow ? '关注' : '取消关注');
+            //     },
+            //     error: function (oResult) {
+            //         alert('出现错误，请重试');
+            //     },
+            //     always: function () {
+            //         oEl.removeAttr('data-limit');
+            //     }
+            // });
             Action[bFollow ? 'unFollowUser' : 'followUser']({
                 userId: sId,
                 call: function (oResult) {
-                    // 修改标记位
-                    oEl.attr('data-status', bFollow ? '0' : '1');
-                    // 按钮颜色
+                    // 调整样式
+                    oEl.attr('data-status',bFollow ? '0':'1');
+                    //按钮颜色
                     oEl.removeClass('zg-btn-follow zg-btn-unfollow').addClass(bFollow ? 'zg-btn-follow' : 'zg-btn-unfollow');
                     // 文字
                     oEl.html(bFollow ? '关注' : '取消关注');

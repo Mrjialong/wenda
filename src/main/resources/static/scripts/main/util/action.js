@@ -19,6 +19,7 @@
      *  @param  {Function} oConf.always 操作的回调
      */
     function fLike(oConf) {
+        alert('like')
         var that = this;
         that.post({
             url: '/like',
@@ -38,6 +39,7 @@
      *  @param  {Function} oConf.always 操作的回调
      */
     function fDislike(oConf) {
+        alert("dislike")
         var that = this;
         that.post({
             url: '/dislike',
@@ -96,6 +98,7 @@
      */
     function fFollowQuestion(oConf) {
         var that = this;
+
         that.post({
             url: '/followQuestion',
             data: {questionId: oConf.questionId},

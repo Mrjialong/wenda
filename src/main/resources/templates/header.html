@@ -15,7 +15,7 @@
     <meta id="znonce" name="znonce" content="d3edc464cf014708819feffde7ddd01e">
     <link rel="search" type="application/opensearchdescription+xml" href="https://nowcoder.com/static/search.xml" title="牛客">
     <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8080/static/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="http://127.0.0.1:8080//static/styles/detail.css">
+<!--    <link rel="stylesheet" href="http://127.0.0.1:8080//static/styles/detail.css">-->
     <style>
         .zm-item-answer-author-info a.collapse {margin-top: 0}
     </style>
@@ -24,6 +24,7 @@
 <body class="zhi ">
 <div role="navigation" class="zu-top">
     <div class="zg-wrap modal-shifting clearfix" id="zh-top-inner">
+
         <a href="https://nowcoder.com/" class="zu-top-link-logo" id="zh-top-link-logo" data-za-c="view_home" data-za-a="visit_home" data-za-l="top_navigation_zhihu_logo">牛客</a>
 
         <div class="top-nav-profile" th:switch="${user != null}">
@@ -43,6 +44,7 @@
                         <!--/*@thymesVar id="user" type="com.wenda.wenda.model.User"*/-->
                         <a th:href="'/user/'+${user.getId()}" tabindex="-1" id=":1">
                             <i class="zg-icon zg-icon-dd-home"></i>我的主页
+
                         </a>
                     </li>
                     <li>
@@ -72,6 +74,7 @@
                 <button type="submit" class="zu-top-search-button"><span class="hide-text">搜索</span><span class="sprite-global-icon-magnifier-dark"></span></button>
             </form>
         </div>
+
         <div id="zg-top-nav" class="zu-top-nav">
             <ul class="zu-top-nav-ul zg-clear">
                 <li class="zu-top-nav-li current" id="zh-top-nav-home">
@@ -86,6 +89,7 @@
                 </li>
                 <!--                #end-->
             </ul>
+
             <div class="zu-top-nav-live zu-noti7-popup zg-r5px no-hovercard" id="zh-top-nav-live-new" role="popup" tabindex="0">
                 <div class="zu-top-nav-live-inner zg-r5px">
                     <div class="zu-top-live-icon">&nbsp;</div>

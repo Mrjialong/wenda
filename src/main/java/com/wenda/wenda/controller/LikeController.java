@@ -9,6 +9,8 @@ import com.wenda.wenda.model.HostHolder;
 import com.wenda.wenda.service.CommentService;
 import com.wenda.wenda.service.LikeService;
 import com.wenda.wenda.util.WendaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
     public class LikeController {
+    private static final Logger logger = LoggerFactory.getLogger(LikeController.class);
         @Autowired
         LikeService likeService;
 
@@ -53,6 +56,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //                    .setExt("questionId", String.valueOf(comment.getEntityId())));
 
             long likeCount = likeService.like(hostHolder.getUsers().getId(), EntityType.ENTITY_COMMENT, commentId);
+            logger.info("点赞"+commentId);
             return WendaUtil.getJSONString(0, String.valueOf(likeCount));
         }
 
@@ -63,6 +67,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
                 return WendaUtil.getJSONString(999);
             }
             long likeCount = likeService.dislike(hostHolder.getUsers().getId(), EntityType.ENTITY_COMMENT, commentId);
+            logger.info("点踩"+commentId);
             return WendaUtil.getJSONString(0, String.valueOf(likeCount));
         }
     }
