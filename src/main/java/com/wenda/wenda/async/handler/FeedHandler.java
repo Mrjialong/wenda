@@ -30,7 +30,11 @@ public class FeedHandler implements EventHandler {
     @Autowired
     JedisAdapter jedisAdapter;
 
-
+    /**
+     * 获取新鲜事的内容
+     * @param model
+     * @return
+     */
     private String buildFeedData(EventModel model){
         Map<String,String> map =  new HashMap<String,String>();
         //新鲜事的触发者
@@ -41,7 +45,7 @@ public class FeedHandler implements EventHandler {
         map.put("userId",String.valueOf(actor.getId()));
         map.put("userhead",actor.getHeadUrl());
         map.put("username",actor.getName());
-        //是不是评论的内容 或者是关注的人物
+        //评论或者是关注问题
         if (model.getType() == EventType.COMMENT ||
                 (model.getType() == EventType.FOLLOW && model.getEntityType() == EntityType.ENTITY_QUESTION)){
             Question question = questionServive.selectById(model.getEntityId());
@@ -77,6 +81,8 @@ public class FeedHandler implements EventHandler {
 
     @Override
     public List<EventType> getSupportEventType() {
+        //判定了评论和关注
+//        return Arrays.asList(EventType.FOLLOW);
         return Arrays.asList(new EventType[]{EventType.COMMENT,EventType.FOLLOW});
     }
 }

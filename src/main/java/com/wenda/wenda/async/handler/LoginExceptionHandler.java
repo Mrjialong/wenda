@@ -3,7 +3,7 @@ package com.wenda.wenda.async.handler;
 import com.wenda.wenda.async.EventHandler;
 import com.wenda.wenda.async.EventModel;
 import com.wenda.wenda.async.EventType;
-import com.wenda.wenda.util.MailSender;
+//import com.wenda.wenda.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.events.Event;
@@ -16,8 +16,8 @@ import java.util.Map;
 @Component
 public class LoginExceptionHandler implements EventHandler {
 
-    @Autowired
-    MailSender mailSender;
+//    @Autowired
+//    MailSender mailSender;
 
     @Override
     public void doHandle(EventModel model) {

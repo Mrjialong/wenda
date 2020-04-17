@@ -5,8 +5,8 @@ public enum EventType {
     COMMENT(1),
     login(2),
     MAIL(3),
-    FOLLOW(3),
-    UNFOLLOW(3);
+    FOLLOW(4),
+    UNFOLLOW(5);
     private int value;
     EventType(int value){
         this.value = value;

@@ -54,25 +54,6 @@ public class FollowController {
         logger.info("关注了"+userId);
         return WendaUtil.getJSONString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUsers().getId(), EntityType.ENTITY_USER)));
     }
-    //关注用户
-    @RequestMapping(path = {"/followUser111"}, method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
-    public String followUser111() {
-        if (hostHolder.getUsers() == null) {
-            return WendaUtil.getJSONString(999);
-        }
-        int userId = 11;
-        boolean ret = followService.follow(hostHolder.getUsers().getId(), EntityType.ENTITY_USER, userId);
-
-        eventProducer.fireEvent(new EventModel(EventType.FOLLOW)
-                .setActorId(hostHolder.getUsers().getId()).setEntityId(userId)
-                .setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
-
-        // 返回关注的人数
-        logger.info("不关注了"+userId);
-
-        return WendaUtil.getJSONString(ret ? 0 : 1, String.valueOf(followService.getFolloweeCount(hostHolder.getUsers().getId(), EntityType.ENTITY_USER)));
-    }
 
     //取消关注用户
     @RequestMapping(path = {"/unfollowUser"}, method = {RequestMethod.POST})

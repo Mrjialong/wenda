@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wenda.wenda.dao.FeedDao">
+<mapper namespace="com.nowcoder.dao.FeedDAO">
     <sql id="table">feed</sql>
     <sql id="selectFields">id, created_date,user_id, data, type
     </sql>
-    <!--    判断id等于小于maxid-->
-    <!--    再遍历判断 是否 user_id 是在 userIds里面的item-->
-    <!--    再判断count为一次读取的个数-->
-    <select id="selectUserFeeds" resultType="com.wenda.wenda.model.Feed">
+    <select id="selectUserFeeds" resultType="com.nowcoder.model.Feed">
         SELECT
         <include refid="selectFields"/>
         FROM

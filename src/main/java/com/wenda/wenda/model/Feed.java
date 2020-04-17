@@ -1,6 +1,8 @@
 
 package com.wenda.wenda.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import javax.xml.crypto.Data;
 import java.util.Date;
 
@@ -8,9 +10,11 @@ public class Feed {
     private int id;
     private int type;
     private int userId;
-    private Date createDate;
+    private Date createdDate;
 
     private String data;
+    private JSONObject datajson = null;
+
 
     public int getId() {
         return id;
@@ -37,11 +41,11 @@ public class Feed {
     }
 
     public Date getCreateDate() {
-        return createDate;
+        return createdDate;
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
     public String getData() {
@@ -50,5 +54,11 @@ public class Feed {
 
     public void setData(String data) {
         this.data = data;
+        datajson = JSONObject.parseObject(data);
     }
+
+    public String get(String key){
+        return datajson == null ? null:datajson.getString(key);
+    }
+
 }

@@ -100,8 +100,8 @@ public class QuestionController {
         }
         model.addAttribute("comments",comments);
         List<ViewObject> followUsers = new ArrayList<>();
-        // 获取关注的用户信息
-        List<Integer> users = followService.getFollowees(EntityType.ENTITY_QUESTION,qid,20);
+        // 获取关注问题的用户信息
+        List<Integer> users = followService.getFollowers(EntityType.ENTITY_QUESTION,qid,20);
         for (Integer userId: users){
             ViewObject vo = new ViewObject();
             User u = userServive.getUser(userId);

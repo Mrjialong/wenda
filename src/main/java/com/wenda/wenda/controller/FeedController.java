@@ -29,19 +29,31 @@ public class FeedController {
     @Autowired
     JedisAdapter jedisAdapter;
 
-
+    /**
+     * 拉
+     * @param model
+     * @return
+     */
     @RequestMapping(path = {"/pullfeeds"},method = {RequestMethod.GET})
     private String getPullFeeds(Model model){
         int localUserId = hostHolder.getUsers() == null? 0:hostHolder.getUsers().getId();
         List<Integer> followees = new ArrayList<>();
-        if (localUserId == 0){
+        if (localUserId != 0){
             followees = followService.getFollowees(localUserId, EntityType.ENTITY_USER,Integer.MAX_VALUE);
         }
         List<Feed> feeds = feedService.getUserFeeds(Integer.MAX_VALUE,followees,10);
+        for (Feed feed :feeds){
+            System.out.println(feed);
+        }
         model.addAttribute("feeds",feeds);
         return "feeds";
     }
 
+    /**
+     * 推
+     * @param model
+     * @return
+     */
     @RequestMapping(path = {"/pushfeeds"},method = {RequestMethod.GET})
     private String getPushFeeds(Model model){
         int localUserId = hostHolder.getUsers() == null? 0:hostHolder.getUsers().getId();

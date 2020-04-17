@@ -1,6 +1,9 @@
 package com.wenda.wenda.controller;
 
 import com.wenda.wenda.aspect.LogAspect;
+import com.wenda.wenda.async.EventModel;
+import com.wenda.wenda.async.EventProducer;
+import com.wenda.wenda.async.EventType;
 import com.wenda.wenda.model.Comment;
 import com.wenda.wenda.model.EntityType;
 import com.wenda.wenda.model.HostHolder;
@@ -30,6 +33,8 @@ public class CommentController {
     CommentService commentService;
     @Autowired
     QuestionServive questionServive;
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path = {"/addComment"},method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content){
@@ -48,6 +53,10 @@ public class CommentController {
             commentService.addComment(comment);
             int commentCount = commentService.getCommentCount(comment.getEntityId(),comment.getEntityType());
             questionServive.updateCommentCount(comment.getEntityId(),commentCount);
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
+
+
         }catch (Exception e){
             logger.error("增加评论失败");
 
